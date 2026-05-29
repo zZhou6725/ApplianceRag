@@ -1,0 +1,54 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# === Virtual Environment ===
+.venv/
+venv/
+env/
+
+# === Environment & Secrets ===
+.env
+*.local
+!*.local.example
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Database ===
+*.db
+*.sqlite3
+chroma_db/
+
+# === Logs ===
+logs/
+*.log
+
+# === Uploads / User Data (keep examples) ===
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+
+# === MD5 cache ===
+md5.text
+
+# === Frontend ===
+frontend/node_modules/
+frontend/dist/
+
+# === Sensitive ===
+*.pem
+*.key
+credentials.json
