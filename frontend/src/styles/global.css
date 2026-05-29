@@ -1,0 +1,68 @@
+/* === Design Tokens === */
+:root {
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-primary-light: #eef2ff;
+  --color-primary-bg: #f5f3ff;
+
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-sidebar: #eef1f5;
+
+  --color-text: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+  --shadow-sidebar: 2px 0 12px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.04);
+
+  --font-mono: "JetBrains Mono","Fira Code","Cascadia Code",monospace;
+  --font-sans: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+
+  --transition-fast: 0.15s cubic-bezier(0.4,0,0.2,1);
+  --transition-smooth: 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+body{ font-family:var(--font-sans); font-size:14px; line-height:1.6; color:var(--color-text); background:var(--color-bg); }
+
+::-webkit-scrollbar{ width:5px; height:5px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:10px; }
+::-webkit-scrollbar-thumb:hover{ background:#94a3b8; }
+
+/* ── Markdown ────────────────────────── */
+.markdown-content p{ margin-bottom:10px; }
+.markdown-content p:last-child{ margin-bottom:0; }
+.markdown-content code{ background:#f1f5f9; color:#e11d48; padding:2px 7px; border-radius:5px; font-size:0.9em; font-family:var(--font-mono); font-weight:500; }
+.markdown-content pre{ background:#1e293b; color:#e2e8f0; padding:14px 16px; border-radius:var(--radius-md); overflow-x:auto; margin:10px 0; font-size:13px; line-height:1.65; }
+.markdown-content pre code{ background:none; padding:0; color:inherit; font-weight:400; }
+.markdown-content ul,.markdown-content ol{ padding-left:22px; margin-bottom:10px; }
+.markdown-content li{ margin-bottom:5px; }
+.markdown-content h1,.markdown-content h2,.markdown-content h3,.markdown-content h4{ margin-top:16px; margin-bottom:8px; font-weight:600; color:var(--color-text); }
+.markdown-content table{ border-collapse:collapse; width:100%; margin:10px 0; border-radius:var(--radius-sm); overflow:hidden; }
+.markdown-content th,.markdown-content td{ border:1px solid var(--color-border); padding:10px 12px; text-align:left; font-size:13px; }
+.markdown-content th{ background:var(--color-primary-light); font-weight:600; color:var(--color-primary); }
+.markdown-content strong{ font-weight:600; color:#0f172a; }
+.markdown-content blockquote{ border-left:3px solid var(--color-primary); padding:8px 14px; margin:10px 0; background:var(--color-primary-light); border-radius:0 var(--radius-sm) var(--radius-sm) 0; color:#334155; }
+
+/* ── Ant Design overrides ─────────────── */
+.ant-btn-primary{ background:var(--color-primary); border-color:var(--color-primary); box-shadow:none; }
+.ant-btn-primary:hover{ background:var(--color-primary-hover)!important; border-color:var(--color-primary-hover)!important; }
+.ant-btn{ border-radius:var(--radius-sm); font-weight:500; transition:all var(--transition-fast); }
+.ant-tag{ border-radius:var(--radius-sm); font-weight:500; }
+.ant-spin-dot-item{ background:var(--color-primary)!important; }
+.ant-popconfirm .ant-btn-primary{ background:#ef4444; border-color:#ef4444; }
+.ant-message-notice-content{ border-radius:var(--radius-md); box-shadow:var(--shadow-lg); }
+.ant-input-affix-wrapper{ border-radius:var(--radius-sm); }
