@@ -2,7 +2,7 @@ import os
 import random
 from datetime import datetime
 
-import httpx
+from curl_cffi import requests as http
 from langchain_core.tools import tool
 
 from app.agent.tools.middleware import get_context
@@ -25,7 +25,7 @@ def _amap_get(path: str, params: dict) -> dict:
     params["key"] = AMAP_KEY
     url = f"https://restapi.amap.com/v3{path}"
     try:
-        resp = httpx.get(url, params=params, timeout=10)
+        resp = http.get(url, params=params, timeout=10)
         resp.raise_for_status()
         return resp.json()
     except Exception as e:

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.agent.react_agent import ReactAgent
 from app.services.conversation_service import add_message, create_conversation
+from app.utils.logger_handler import logger
 
 _agent: ReactAgent | None = None
 
@@ -38,25 +39,33 @@ async def stream_chat(
     """SSE streaming generator for agent chat."""
     if not conversation_id:
         conversation_id = create_conversation(db)
+        logger.info("[Chat] 创建新对话: %s", conversation_id)
+    else:
+        logger.info("[Chat] 使用已有对话: %s", conversation_id)
 
     # 用户消息存入数据库时保留原始文本 + 文件信息
     display_message = message
     if file_name:
         display_message = f"[上传文件: {file_name}]\n{message}"
     add_message(db, conversation_id, "user", display_message)
+    logger.info("[Chat] 用户消息: %s", display_message[:200])
 
     try:
         agent = _get_agent()
         query = _build_query(message, file_context, file_name)
         accumulated = ""
+        chunk_count = 0
 
         for chunk in agent.execute_stream(query):
             accumulated += chunk
+            chunk_count += 1
             yield f"event: token\ndata: {json.dumps({'content': chunk}, ensure_ascii=False)}\n\n"
 
+        logger.info("[Chat] 流式完成, 共 %d chunks, 总长度 %d", chunk_count, len(accumulated))
         add_message(db, conversation_id, "assistant", accumulated.strip())
 
         yield f"event: done\ndata: {json.dumps({'conversation_id': conversation_id}, ensure_ascii=False)}\n\n"
 
     except Exception as e:
+        logger.error("[Chat] 异常: %s", e)
         yield f"event: error\ndata: {json.dumps({'detail': str(e)}, ensure_ascii=False)}\n\n"

@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 _backend_dir = Path(__file__).resolve().parent.parent.parent
-load_dotenv(_backend_dir / ".env", override=True)
+load_dotenv(_backend_dir / ".env")
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -131,3 +131,15 @@ def read_root():
 
 # 启动时初始化数据库表
 init_db()
+
+
+@app.on_event("startup")
+def startup_load_knowledge():
+    from app.rag.vector_store import VectorStoreService
+    from app.utils.logger_handler import logger
+    logger.info("[Startup] 开始加载知识库文件...")
+    try:
+        VectorStoreService().load_document()
+        logger.info("[Startup] 知识库加载完成")
+    except Exception as e:
+        logger.error("[Startup] 知识库加载失败: %s", e)

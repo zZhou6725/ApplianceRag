@@ -31,12 +31,13 @@
       </a-tooltip>
 
       <a-textarea
+        ref="textareaRef"
         v-model:value="inputText"
         :auto-size="{ minRows: 1, maxRows: 4 }"
         placeholder="输入您的问题，Enter 发送..."
         :disabled="isStreaming"
         class="chat-textarea"
-        @keydown.enter.prevent="handleSend"
+        @keydown.enter="handleSend"
       />
       <div class="input-suffix">
         <a-button
@@ -63,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import {
   SendOutlined,
   PauseCircleOutlined,
@@ -86,6 +87,7 @@ const emit = defineEmits<{
 const inputText = ref("");
 const fileInputRef = ref<HTMLInputElement | null>(null);
 const uploadedFile = ref<UploadedFile | null>(null);
+const textareaRef = ref<any>(null);
 
 function openFilePicker() {
   fileInputRef.value?.click();
@@ -122,7 +124,11 @@ function formatSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
 }
 
-function handleSend() {
+function handleSend(e?: KeyboardEvent) {
+  // Shift+Enter 换行，单独 Enter 发送
+  if (e && e.shiftKey) return;
+  if (e) e.preventDefault();
+
   const text = inputText.value.trim();
   if (!text) return;
   const fc = uploadedFile.value?.content ?? null;
@@ -130,6 +136,12 @@ function handleSend() {
   emit("send", text, fc, fn);
   inputText.value = "";
   uploadedFile.value = null;
+
+  nextTick(() => {
+    if (textareaRef.value) {
+      textareaRef.value.$el?.querySelector('textarea')?.blur();
+    }
+  });
 }
 </script>
 

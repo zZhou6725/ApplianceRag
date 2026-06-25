@@ -18,7 +18,7 @@ class LoginRequest(BaseModel):
     password: str = Field(..., min_length=1, description="密码")
 
 
-@router.post("/login")
+@router.post("/login", summary="用户登录", description="使用用户名密码登录，返回 JWT Token")
 def login(body: LoginRequest):
     user = DEMO_USERS.get(body.username)
     if not user or not _verify_password(body.password, user["hashed_password"]):
@@ -32,7 +32,7 @@ def login(body: LoginRequest):
     })
 
 
-@router.get("/me")
+@router.get("/me", summary="获取当前用户信息", description="根据 JWT Token 返回当前登录用户的用户名和显示名称")
 def get_me(username: str = Depends(get_current_user)):
     user = DEMO_USERS[username]
     return success(data={

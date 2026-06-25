@@ -34,6 +34,9 @@ class MemoryCache(CacheBackend):
         self._store: dict[str, dict] = {}
         self._hits = 0
         self._misses = 0
+        self._hit_times: list[float] = []
+        self._miss_times: list[float] = []
+        self._recent_events: list[dict] = []
 
     def get(self, key: str) -> str | None:
         entry = self._store.get(key)
@@ -52,16 +55,40 @@ class MemoryCache(CacheBackend):
         self._store.clear()
         self._hits = 0
         self._misses = 0
+        self._hit_times.clear()
+        self._miss_times.clear()
+        self._recent_events.clear()
+
+    def record(self, hit: bool, elapsed_ms: float, query: str, prefix: str = ""):
+        if hit:
+            self._hit_times.append(elapsed_ms)
+        else:
+            self._miss_times.append(elapsed_ms)
+        self._recent_events.append({
+            "ts": time.strftime("%H:%M:%S"),
+            "hit": hit,
+            "elapsed_ms": round(elapsed_ms, 1),
+            "query": query[:80],
+            "prefix": prefix,
+        })
+        if len(self._recent_events) > 50:
+            self._recent_events = self._recent_events[-50:]
 
     @property
     def stats(self) -> dict:
         total = self._hits + self._misses
+        avg_hit = round(sum(self._hit_times) / len(self._hit_times), 1) if self._hit_times else 0
+        avg_miss = round(sum(self._miss_times) / len(self._miss_times), 1) if self._miss_times else 0
         return {
             "backend": "memory",
             "entries": len(self._store),
             "hits": self._hits,
             "misses": self._misses,
+            "total": total,
             "hit_rate": round(self._hits / total, 4) if total else 0.0,
+            "avg_hit_ms": avg_hit,
+            "avg_miss_ms": avg_miss,
+            "recent_events": self._recent_events[-20:],
         }
 
 
@@ -159,6 +186,9 @@ class CacheManager:
         key = self._make_key(query, prefix)
         self._backend.set(key, value, ttl)
 
+    def record(self, hit: bool, elapsed_ms: float, query: str, prefix: str = ""):
+        self._backend.record(hit, elapsed_ms, query, prefix)
+
     def clear(self) -> None:
         self._backend.clear()
         self._hits = 0
@@ -175,5 +205,19 @@ class CacheManager:
         }
 
 
-# Global singleton
-cache_manager = CacheManager(backend="memory")
+def _create_cache_manager() -> CacheManager:
+    """根据环境变量创建缓存管理器。"""
+    import os
+    backend = os.getenv("CACHE_BACKEND", "memory")
+    if backend == "redis":
+        return CacheManager(
+            backend="redis",
+            host=os.getenv("REDIS_HOST", "localhost"),
+            port=int(os.getenv("REDIS_PORT", "6379")),
+            db=int(os.getenv("REDIS_DB", "0")),
+            password=os.getenv("REDIS_PASSWORD") or None,
+        )
+    return CacheManager(backend="memory")
+
+
+cache_manager = _create_cache_manager()

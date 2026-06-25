@@ -11,7 +11,7 @@ from app.services.export_service import conversation_to_markdown, conversation_t
 router = APIRouter(prefix="/export", tags=["export"])
 
 
-@router.get("/{conversation_id}/markdown")
+@router.get("/{conversation_id}/markdown", summary="导出 Markdown", description="将对话导出为 Markdown 文件")
 def export_markdown(conversation_id: str, db: Session = Depends(get_db)):
     conv = get_conversation(db, conversation_id)
     content = conversation_to_markdown(conv)
@@ -23,7 +23,7 @@ def export_markdown(conversation_id: str, db: Session = Depends(get_db)):
     )
 
 
-@router.get("/{conversation_id}/pdf")
+@router.get("/{conversation_id}/pdf", summary="导出 PDF", description="将对话导出为 PDF 文件")
 def export_pdf(conversation_id: str, db: Session = Depends(get_db)):
     conv = get_conversation(db, conversation_id)
     pdf_bytes = conversation_to_pdf_bytes(conv)

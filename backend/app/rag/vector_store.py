@@ -46,8 +46,9 @@ class VectorStoreService:
             length_function=len,
         )
 
-    def get_retriever(self):
-        return self.vector_store.as_retriever(search_kwargs={"k": settings.chroma_k})
+    def get_retriever(self, k: int | None = None):
+        k_val = k if k is not None else settings.chroma_k
+        return self.vector_store.as_retriever(search_kwargs={"k": k_val})
 
     def load_document(self):
         md5_store_path = get_abs_path(settings.chroma_md5_store)

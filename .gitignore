@@ -32,6 +32,9 @@ Thumbs.db
 *.db
 *.sqlite3
 chroma_db/
+chroma_db_memory/
+backend/.vite/
+backend/api-docs/
 
 # === Logs ===
 logs/

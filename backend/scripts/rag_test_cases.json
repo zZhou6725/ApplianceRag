@@ -1,0 +1,117 @@
+[
+    {
+        "query": "空调温度设置多少度最省电？",
+        "relevant_keywords": ["24-26°C", "26°C"],
+        "relevant_docs": ["aircon_manual.txt"]
+    },
+    {
+        "query": "空调滤网需要多久清洗一次？",
+        "relevant_keywords": ["15天", "拆卸清洗"],
+        "relevant_docs": ["aircon_manual.txt"]
+    },
+    {
+        "query": "空调显示E3是什么问题？",
+        "relevant_keywords": ["冷媒泄漏", "补氟"],
+        "relevant_docs": ["aircon_manual.txt"]
+    },
+    {
+        "query": "空调室外机过热怎么办？",
+        "relevant_keywords": ["散热片", "通风降温"],
+        "relevant_docs": ["aircon_manual.txt"]
+    },
+    {
+        "query": "料理机可以给宝宝做辅食吗？",
+        "relevant_keywords": ["辅食", "米糊", "果泥"],
+        "relevant_docs": ["food_processor_guide.txt"]
+    },
+    {
+        "query": "料理机启动没有反应怎么排查？",
+        "relevant_keywords": ["杯体", "盖子", "安装到位"],
+        "relevant_docs": ["food_processor_guide.txt"]
+    },
+    {
+        "query": "料理机刀头多久需要更换？",
+        "relevant_keywords": ["刀刃钝化", "粉碎效果"],
+        "relevant_docs": ["food_processor_guide.txt"]
+    },
+    {
+        "query": "料理机使用时发出异响怎么处理？",
+        "relevant_keywords": ["食材过量", "刀头松动"],
+        "relevant_docs": ["food_processor_guide.txt"]
+    },
+    {
+        "query": "实木家具日常怎么保养？",
+        "relevant_keywords": ["避免阳光直射", "护理油"],
+        "relevant_docs": ["furniture_care.txt"]
+    },
+    {
+        "query": "布艺沙发脏了怎么清理？",
+        "relevant_keywords": ["中性清洁剂", "轻拍擦拭"],
+        "relevant_docs": ["furniture_care.txt"]
+    },
+    {
+        "query": "板式家具能不能用强酸清洁剂？",
+        "relevant_keywords": ["强酸", "腐蚀贴面", "起皮"],
+        "relevant_docs": ["furniture_care.txt"]
+    },
+    {
+        "query": "人形机器人怎么唤醒它？",
+        "relevant_keywords": ["智伴", "1-3米"],
+        "relevant_docs": ["humanoid_robot_manual.txt"]
+    },
+    {
+        "query": "人形机器人能帮老人做什么？",
+        "relevant_keywords": ["端茶", "递物", "陪伴"],
+        "relevant_docs": ["humanoid_robot_manual.txt"]
+    },
+    {
+        "query": "人形机器人充电要注意什么？",
+        "relevant_keywords": ["50%电量", "4小时"],
+        "relevant_docs": ["humanoid_robot_manual.txt"]
+    },
+    {
+        "query": "人形机器人关节有异响怎么修？",
+        "relevant_keywords": ["螺丝松动", "润滑油"],
+        "relevant_docs": ["humanoid_robot_manual.txt"]
+    },
+    {
+        "query": "扫地机器人滤网多久换一次？",
+        "relevant_keywords": ["2-3个月", "水洗"],
+        "relevant_docs": ["robot_vacuum_guide.txt"]
+    },
+    {
+        "query": "扫地机器人E01故障代码怎么处理？",
+        "relevant_keywords": ["主刷缠绕", "毛发"],
+        "relevant_docs": ["robot_vacuum_guide.txt"]
+    },
+    {
+        "query": "小户型选什么类型的扫地机器人？",
+        "relevant_keywords": ["超薄", "8cm", "激光导航"],
+        "relevant_docs": ["robot_vacuum_guide.txt"]
+    },
+    {
+        "query": "扫地机器人边刷多久更换？",
+        "relevant_keywords": ["3-6个月", "刷毛变形"],
+        "relevant_docs": ["robot_vacuum_guide.txt"]
+    },
+    {
+        "query": "智能家居离家模式会做什么？",
+        "relevant_keywords": ["关闭", "扫地机器人", "清扫"],
+        "relevant_docs": ["smart_home_system.txt"]
+    },
+    {
+        "query": "智能家居设备怎么配网？",
+        "relevant_keywords": ["2.4G Wi-Fi", "智联APP", "指示灯"],
+        "relevant_docs": ["smart_home_system.txt"]
+    },
+    {
+        "query": "智能门锁要怎么设置才安全？",
+        "relevant_keywords": ["指纹", "人脸双重验证"],
+        "relevant_docs": ["smart_home_system.txt"]
+    },
+    {
+        "query": "智能家居路由器放哪里信号好？",
+        "relevant_keywords": ["全屋中心", "金属干扰"],
+        "relevant_docs": ["smart_home_system.txt"]
+    }
+]

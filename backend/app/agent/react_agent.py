@@ -35,6 +35,8 @@ class ReactAgent:
 
     def execute_stream(self, query: str):
         reset_context()
+        logger.info("[Agent] ===== 开始新请求 =====")
+        logger.info("[Agent] 用户输入: %s", query[:200])
 
         messages = [
             SystemMessage(content=load_system_prompt()),
@@ -45,6 +47,8 @@ class ReactAgent:
         max_iterations = 10
 
         for iteration in range(max_iterations):
+            logger.info("[Agent] --- 第 %d 轮 ---", iteration + 1)
+
             if get_context().report:
                 current_system = load_report_prompt()
                 existing_systems = [m.content for m in messages if isinstance(m, SystemMessage)]
@@ -68,13 +72,16 @@ class ReactAgent:
             tool_calls = getattr(gathered, "tool_calls", None) if gathered else None
 
             if not tool_calls:
+                logger.info("[Agent] 模型返回最终答案，结束")
                 return  # Already streamed the final answer above
+
+            logger.info("[Agent] 模型请求 %d 个工具调用", len(tool_calls))
 
             # Execute tools
             for tc in tool_calls:
                 tool_name = tc.get("name", "")
                 tool_args = tc.get("args", {})
-                logger.info(f"[Agent] 工具: {tool_name}({json.dumps(tool_args, ensure_ascii=False)})")
+                logger.info("[Agent] 调用工具: %s(%s)", tool_name, json.dumps(tool_args, ensure_ascii=False))
 
                 tool_func = TOOL_BY_NAME.get(tool_name)
                 if tool_func is None:
@@ -84,11 +91,13 @@ class ReactAgent:
                         result = tool_func.invoke(tool_args)
                     except Exception as e:
                         result = f"工具调用失败：{str(e)}"
+                        logger.error("[Agent] 工具调用异常: %s", e)
 
-                logger.info(f"[Agent] 结果: {str(result)[:200]}")
+                logger.info("[Agent] 工具结果 (%s): %s", tool_name, str(result)[:200])
                 messages.append(ToolMessage(content=str(result), tool_call_id=tc.get("id", "")))
 
         # Max iterations exceeded — final answer
+        logger.warning("[Agent] 达到最大迭代次数，强制生成最终答案")
         for chunk in self._model.stream(messages):
             if chunk.content:
                 yield chunk.content

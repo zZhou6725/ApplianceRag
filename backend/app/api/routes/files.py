@@ -8,7 +8,7 @@ from app.utils.logger_handler import logger
 router = APIRouter(prefix="/files", tags=["files"])
 
 
-@router.post("/upload")
+@router.post("/upload", summary="上传文件", description="上传 txt/md/pdf/docx/图片文件，提取文本内容用于对话上下文")
 async def upload_file(file: UploadFile = File(...)):
     logger.info(f"[上传] 收到文件: {file.filename}, 大小: {file.size}")
 
